@@ -12,17 +12,18 @@ class SVM ():
     def fit (self, X, y):
         # TODO change these -- they should be matrices or vectors
         n = X.shape[0]
-        # G = make_G(X, y)
+        G = make_G(X, y)
         P = [
-            [1, 0],
-            [0, 0]
+            [1.0, 0.0],
+            [0.0, 0.0]
         ]
 
         q = 0
         h = -1 * np.ones((n,))
 
-        print(P)
-        print(h)
+        # print(G.shape)
+        # print(P.shape)
+        # print(h.shape)
 
         # Solve -- if the variables above are defined correctly, you can call this as-is:
         sol = solvers.qp(matrix(P, tc='d'), matrix(q, tc='d'), matrix(G, tc='d'), matrix(h, tc='d'))
@@ -39,8 +40,8 @@ def make_row(h, size):
     return 
 
 def make_G(X, y):
-    transformed_X = X.tranpose(0,2,1) # transposes each feature vector individually
-    return np.append((np.diag(y) * transformed_X), -y, axis=1) 
+    Y = np.array([y, y]).T
+    return np.hstack((-Y * X, np.reshape(-y, (y.shape[0], 1))))
 
 def test1 ():
     # Set up toy problem
@@ -48,8 +49,8 @@ def test1 ():
     y = np.array([-1,-1,-1,1,1,1])
 
     # Train your model
-    svm453X = SVM()
-    svm453X.fit(X, y)
+    svm = SVM()
+    svm.fit(X, y)
     print(svm.w, svm.b)
 
     # Compare with sklearn
@@ -88,5 +89,5 @@ def test2 ():
         print("Passed")
 
 if __name__ == "__main__": 
-    # test1()
-    test2()
+    test1()
+    # test2()
