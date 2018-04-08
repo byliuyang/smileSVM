@@ -11,7 +11,7 @@ class SVM ():
     # y should correspondingly be an n-vector of labels (-1 or +1).
     def fit (self, X, y):
         # TODO change these -- they should be matrices or vectors
-        G = 0
+        G = make_G(X, y)
         P = 0
         q = 0
         h = 0
@@ -26,6 +26,11 @@ class SVM ():
     # Given a 2-D matrix of examples X, output a vector of predicted class labels
     def predict (self, x):
         return 0  # TODO fix
+
+def make_G(X, y):
+    transformed_X = X.tranpose(0,2,1) # transposes each feature vector individually
+    
+    return np.append((np.diag(y) * transformed_X), -y, axis=1) 
 
 def test1 ():
     # Set up toy problem
