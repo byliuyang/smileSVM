@@ -11,10 +11,18 @@ class SVM ():
     # y should correspondingly be an n-vector of labels (-1 or +1).
     def fit (self, X, y):
         # TODO change these -- they should be matrices or vectors
-        G = make_G(X, y)
-        P = 0
+        n = X.shape[0]
+        # G = make_G(X, y)
+        P = [
+            [1, 0],
+            [0, 0]
+        ]
+
         q = 0
-        h = 0
+        h = -1 * np.ones((n,))
+
+        print(P)
+        print(h)
 
         # Solve -- if the variables above are defined correctly, you can call this as-is:
         sol = solvers.qp(matrix(P, tc='d'), matrix(q, tc='d'), matrix(G, tc='d'), matrix(h, tc='d'))
@@ -27,9 +35,11 @@ class SVM ():
     def predict (self, x):
         return 0  # TODO fix
 
+def make_row(h, size):
+    return 
+
 def make_G(X, y):
     transformed_X = X.tranpose(0,2,1) # transposes each feature vector individually
-    
     return np.append((np.diag(y) * transformed_X), -y, axis=1) 
 
 def test1 ():
@@ -68,7 +78,7 @@ def test2 ():
     # Compare with sklearn
     svm = sklearn.svm.SVC(kernel='linear', C=1e15)  # 1e15 -- approximate hard margin
     svm.fit(X, y)
-    diff = np.linalg.norm(svm.coef_ - svm.w) + np.abs(svm.intercept_ - svm453X.b)
+    diff = np.linalg.norm(svm.coef_ - svm.w) + np.abs(svm.intercept_ - svm.b)
     print(diff)
 
     acc = np.mean(svm.predict(X) == svm.predict(X))
@@ -78,5 +88,5 @@ def test2 ():
         print("Passed")
 
 if __name__ == "__main__": 
-    test1()
+    # test1()
     test2()
