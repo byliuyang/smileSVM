@@ -28,9 +28,7 @@ class SVM ():
         return 0  # TODO fix
 
 def make_G(X, y):
-    transformed_X = X.tranpose(0,2,1) # transposes each feature vector individually
-    
-    return np.hstack((np.diag(y) * transformed_X, -y))
+    return np.hstack(np.diag(-y).dot(X), -np.vstack(y))
 
 def test1 ():
     # Set up toy problem
