@@ -30,7 +30,7 @@ class SVM ():
 def make_G(X, y):
     transformed_X = X.tranpose(0,2,1) # transposes each feature vector individually
     
-    return np.append((np.diag(y) * transformed_X), -y, axis=1) 
+    return np.hstack((np.diag(y) * transformed_X, -y))
 
 def test1 ():
     # Set up toy problem
